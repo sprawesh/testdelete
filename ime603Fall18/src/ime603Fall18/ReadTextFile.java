@@ -1,0 +1,43 @@
+package ime603Fall18;
+
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Scanner;
+
+public class ReadTextFile {
+	
+	private static Scanner input;
+
+	public static void main(String[] args) {
+		openFile();
+		readRecords();
+		closeFile();	
+
+	}
+
+	private static void closeFile() {
+		if(input != null)
+			input.close();		
+	}
+
+	private static void readRecords() {
+		System.out.printf("%-10s%-12s%-12s%10s%n", "Account", "First Name", "Last Name", "Balance");
+		
+		while(input.hasNext()) {
+			System.out.printf("%-10s%-12s%-12s%10s%n", input.nextInt(), input.next(), input.next(), input.nextDouble());
+		}
+		//try-catch: NoSuchElementException "File improperly formed.", IllegalStateException "Error reading from file"
+		
+	}
+
+	private static void openFile() {
+		
+		try {
+			input = new Scanner(Paths.get("clients.txt"));
+		} catch (IOException ioException) {
+			System.err.println("Error opening file. Terminating."); 
+			System.exit(1); 			
+		}		
+	}
+
+}
